@@ -1,4 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
+import Profile from './components/Profile'
+import Login from './components/Login'
+import Quotes from './components/Quotes'
 import './App.css'
 
 interface Quote {
@@ -9,25 +13,35 @@ interface Quote {
 
 function App() {
   const [quotes, setQuotes] = useState<Quote[]>([])
+  const { isAuthenticated, isLoading } = useAuth0()
 
   useEffect(() => {
-    fetch('https://quotesapi.fly.dev/api/quotes/random')
-      .then(res => res.json())
-      .then(data => setQuotes(data))
-  }, [])
+    if (isAuthenticated) {
+      fetch('https://quotesapi.fly.dev/api/quotes/random')
+        .then(res => res.json())
+        .then(data => setQuotes(data))
+    }
+  }, [isAuthenticated])
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>
+  }
 
   return (
-    <div>
+    <div className="app-container">
       <h1>Quotes API</h1>
-      <hr />
-      {quotes.map((quote, index) => (
-        <div key={index}>
-          <p>"{quote.quote}"</p>
-          <p>- {quote.author}</p>
-          <p>{quote.tags.join(', ')}</p>
-          <hr />
+      
+      {isAuthenticated ? (
+        <div>
+          <Profile />
+          {quotes.length > 0 && <Quotes quotes={quotes} />}
         </div>
-      ))}
+      ) : (
+        <div className="login-container">
+          <p>Please log in to see quotes</p>
+          <Login />
+        </div>
+      )}
     </div>
   )
 }
