@@ -13,15 +13,24 @@ interface Quote {
 
 function App() {
   const [quotes, setQuotes] = useState<Quote[]>([])
-  const { isAuthenticated, isLoading } = useAuth0()
+  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetch('https://quotesapi.fly.dev/api/quotes/random')
-        .then(res => res.json())
-        .then(data => setQuotes(data))
+      (async () => {
+        const token = await getAccessTokenSilently()
+      
+        const response = await fetch('https://quotesapi.fly.dev/api/quotes/random', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        
+        const data = await response.json()
+        setQuotes(data)
+      })()
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, getAccessTokenSilently])
 
   if (isLoading) {
     return <div className="loading">Loading...</div>
