@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
+import ForgetQuoteButton from './ForgetQuoteButton';
 
 interface Quote {
   _id: string;
@@ -58,6 +59,14 @@ const Quotes = () => {
       });
   };
 
+  const forgetQuote = (quoteId: string) => {
+    setQuotes(currentQuotes => 
+      currentQuotes.map(quote => 
+        quote._id === quoteId ? { ...quote, saved: false } : quote
+      )
+    );
+  };
+
   return (
     <div className="quotes-container">
       {quotes.map((quote, index) => (
@@ -66,9 +75,10 @@ const Quotes = () => {
           <p className="quote-author">- {quote.author}</p>
           <p className="quote-tags">{quote.tags.join(', ')}</p>
           {quote.saved ? (
-            <div className="saved-badge">
-              ✓ Quote Saved
-            </div>
+            <ForgetQuoteButton 
+              quoteId={quote._id} 
+              onForget={() => forgetQuote(quote._id)} 
+            />
           ) : (
             <button 
               onClick={() => saveQuote(quote._id)}

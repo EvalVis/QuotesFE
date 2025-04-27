@@ -187,14 +187,17 @@
   font-style: italic;
 }
 
-
-
-.saved-badge {
-  display: inline-block;
-  background-color: #4caf50;
+.forget-button {
+  background-color: #f44336;
   color: white;
+  border: none;
   padding: 5px 10px;
   border-radius: 4px;
+  cursor: pointer;
   margin-top: 10px;
-  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.forget-button:hover {
+  background-color: #d32f2f;
 }
