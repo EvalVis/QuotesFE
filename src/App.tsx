@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import Profile from './components/Profile'
 import Login from './components/Login'
-import Quotes from './components/Quotes'
-import SavedQuotes from './components/SavedQuotes'
+import QuotesView from './views/QuotesView'
+import SavedQuotesView from './views/SavedQuotesView'
 import './App.css'
 
 type View = 'home' | 'saved';
@@ -39,8 +39,8 @@ function App() {
           
           <Profile />
           
-          {currentView === 'home' && <Quotes />}
-          {currentView === 'saved' && <SavedQuotes />}
+          {currentView === 'home' && <QuotesView />}
+          {currentView === 'saved' && <SavedQuotesView />}
         </div>
       ) : (
         <div className="login-container">

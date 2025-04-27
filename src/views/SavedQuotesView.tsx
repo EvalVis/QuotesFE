@@ -1,15 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import ForgetQuoteButton from './ForgetQuoteButton';
+import QuoteComponent from '../components/Quote';
 
-interface Quote {
-  _id: string;
-  quote: string;
-  author: string;
-  tags: string[];
-}
-
-const SavedQuotes = () => {
+const SavedQuotesView = () => {
   const [savedQuotes, setSavedQuotes] = useState<Quote[]>([]);
   const { getAccessTokenSilently } = useAuth0();
 
@@ -24,16 +17,20 @@ const SavedQuotes = () => {
       });
       
       const data = await response.json();
-      setSavedQuotes(data);
+      const quotes = data.map((quote: any) => ({
+        ...quote,
+        saved: true
+      }));
+      setSavedQuotes(quotes);
     };
 
     getSavedQuotes();
   }, [getAccessTokenSilently]);
 
-  const forgetQuote = (quoteId: string) => {
-    setSavedQuotes(currentQuotes => 
-      currentQuotes.filter(quote => quote._id !== quoteId)
-    );
+  const handleForget = (quoteId: string) => {
+      setSavedQuotes(currentQuotes => 
+        currentQuotes.filter(quote => quote._id !== quoteId)
+      );
   };
 
   if (savedQuotes.length === 0) {
@@ -45,19 +42,15 @@ const SavedQuotes = () => {
       <h2>Your Saved Quotes</h2>
       <div className="quotes-container">
         {savedQuotes.map((quote) => (
-          <div key={quote._id} className="quote-item">
-            <p className="quote-text">"{quote.quote}"</p>
-            <p className="quote-author">- {quote.author}</p>
-            <p className="quote-tags">{quote.tags.join(', ')}</p>
-            <ForgetQuoteButton 
-              quoteId={quote._id} 
-              onForget={() => forgetQuote(quote._id)}
-            />
-          </div>
+          <QuoteComponent 
+            key={quote._id}
+            quote={quote}
+            onForget={handleForget}
+          />
         ))}
       </div>
     </div>
   );
 };
 
-export default SavedQuotes; 
+export default SavedQuotesView; 
