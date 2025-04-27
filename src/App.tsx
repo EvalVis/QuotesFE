@@ -1,36 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import Profile from './components/Profile'
 import Login from './components/Login'
 import Quotes from './components/Quotes'
+import SavedQuotes from './components/SavedQuotes'
 import './App.css'
 
-interface Quote {
-  quote: string;
-  author: string;
-  tags: string[];
-}
+type View = 'home' | 'saved';
 
 function App() {
-  const [quotes, setQuotes] = useState<Quote[]>([])
-  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      (async () => {
-        const token = await getAccessTokenSilently()
-      
-        const response = await fetch('https://quotesapi.fly.dev/api/quotes/random', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        
-        const data = await response.json()
-        setQuotes(data)
-      })()
-    }
-  }, [isAuthenticated, getAccessTokenSilently])
+  const [currentView, setCurrentView] = useState<View>('home')
+  const { isAuthenticated, isLoading } = useAuth0()
 
   if (isLoading) {
     return <div className="loading">Loading...</div>
@@ -42,8 +22,25 @@ function App() {
       
       {isAuthenticated ? (
         <div>
+          <nav className="navigation">
+            <button 
+              onClick={() => setCurrentView('home')} 
+              className={`nav-button ${currentView === 'home' ? 'active' : ''}`}
+            >
+              Home
+            </button>
+            <button 
+              onClick={() => setCurrentView('saved')} 
+              className={`nav-button ${currentView === 'saved' ? 'active' : ''}`}
+            >
+              Saved Quotes
+            </button>
+          </nav>
+          
           <Profile />
-          {quotes.length > 0 && <Quotes quotes={quotes} />}
+          
+          {currentView === 'home' && <Quotes />}
+          {currentView === 'saved' && <SavedQuotes />}
         </div>
       ) : (
         <div className="login-container">
