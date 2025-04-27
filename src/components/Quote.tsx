@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
+import Comment from './Comment';
 
 export interface Quote {
   _id: string;
@@ -51,6 +52,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
       <p className="quote-text">"{quote.quote}"</p>
       <p className="quote-author">- {quote.author}</p>
       <p className="quote-tags">{quote.tags.join(', ')}</p>
+      
       {quote.saved ? (
         <button 
           onClick={forget}
@@ -66,6 +68,8 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
           Save
         </button>
       )}
+      
+      <Comment quoteId={quote._id} />
     </div>
   );
 };
