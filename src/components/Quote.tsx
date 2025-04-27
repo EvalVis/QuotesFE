@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
-import Comment from './Comment';
+import CommentComponent, {Comment} from './Comment';
 
 export interface Quote {
   _id: string;
@@ -17,7 +17,9 @@ interface QuoteProps {
 
 const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }: QuoteProps) => {
   const [quote, setQuote] = useState<Quote>(initialQuote);
-  const { getAccessTokenSilently } = useAuth0();
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState<CommentData[]>([]);
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const forget = async () => {
       const token = await getAccessTokenSilently();
@@ -46,6 +48,36 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
     
     setQuote({ ...quote, saved: true });
   };
+  
+  const toggleComments = async () => {    
+    if (showComments && comments.length === 0) {
+      await fetchComments();
+    }
+
+    setShowComments(!showComments);
+  };
+  
+  const fetchComments = async () => {
+    const token = await getAccessTokenSilently();
+    const response = await fetch(`https://quotesapi.fly.dev/api/quotes/comments/${quote._id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    
+    const commentData = await response.json();
+    
+    let sortedComments = [...commentData].sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    
+    sortedComments = [
+      ...sortedComments.filter(c => c.email === user!.email),
+      ...sortedComments.filter(c => c.email !== user!.email)
+    ];
+    
+    setComments(sortedComments);
+  };
 
   return (
     <div className="quote-item">
@@ -69,7 +101,40 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
         </button>
       )}
       
-      <Comment quoteId={quote._id} />
+      <div className="comments-container">
+        <button 
+          onClick={toggleComments} 
+          className="comments-toggle"
+        >
+          {showComments ? 'Hide Comments' : 'View Comments'}
+        </button>
+        
+        {showComments && (
+          <div className="comments-section">
+              <div>
+                <Comment 
+                  quoteId={quote._id} 
+                  onCommentAdded={fetchComments}
+                />
+                
+                <div className="comments-list">
+                  {comments.length === 0 ? (
+                    <p className="no-comments">No comments yet. Be the first to comment!</p>
+                  ) : (
+                    comments.map((comment, index) => (
+                      <Comment 
+                        key={index}
+                        quoteId={quote._id} 
+                        commentData={comment} 
+                        userEmail={user!.email}
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

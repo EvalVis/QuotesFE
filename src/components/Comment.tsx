@@ -1,14 +1,40 @@
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
-interface CommentProps {
-  quoteId: string;
+interface Comment {
+  email: string;
+  text: string;
+  createdAt: string;
 }
 
-const Comment = ({ quoteId }: CommentProps) => {
-  const [comment, setComment] = useState('');
-  const { getAccessTokenSilently } = useAuth0();
+interface CommentProps {
+  quoteId: string;
+  commentData?: Comment;
+  onCommentAdded?: () => void;
+}
 
+const CommentComponent = ({ quoteId, commentData, onCommentAdded = () => {} }: CommentProps) => {
+  const [comment, setComment] = useState('');
+  const { user, getAccessTokenSilently } = useAuth0();
+  
+  if (commentData) {
+    const isUserComment = user!.email === commentData.email;
+    const date = new Date(commentData.createdAt);
+    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+    
+    return (
+      <div className={`comment-display ${isUserComment ? 'user-comment' : ''}`}>
+        <div className="comment-text">{commentData.text}</div>
+        <div className="comment-meta">
+          <span className="comment-author">
+            {isUserComment ? 'You' : commentData.email.split('@')[0]}
+          </span>
+          <span className="comment-date">{formattedDate}</span>
+        </div>
+      </div>
+    );
+  }
+  
   const addComment = async () => {    
     const token = await getAccessTokenSilently();
     
@@ -24,6 +50,7 @@ const Comment = ({ quoteId }: CommentProps) => {
     });
     
     setComment('');
+    onCommentAdded();
   };
 
   return (
@@ -45,4 +72,4 @@ const Comment = ({ quoteId }: CommentProps) => {
   );
 };
 
-export default Comment; 
+export default CommentComponent; 
