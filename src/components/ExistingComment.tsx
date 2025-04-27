@@ -1,24 +1,21 @@
-import { useAuth0 } from '@auth0/auth0-react';
-
 export interface Comment {
-    email: string;
-    text: string;
-    createdAt: string;
-  } 
+  id: string;
+  text: string;
+  username: string;
+  isOwner: boolean;
+  createdAt: string;
+}
 
-const ExistingComment = ({ commentData }: { commentData: Comment }) => {
-  const { user } = useAuth0();
-  
-  const isUserComment = user!.email === commentData.email;
-  const date = new Date(commentData.createdAt);
-  const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-  
+const ExistingComment = ({ comment }: { comment: Comment }) => {
+    const date = new Date(comment.createdAt);
+    const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+
   return (
-    <div className={`comment-display ${isUserComment ? 'user-comment' : ''}`}>
-      <div className="comment-text">{commentData.text}</div>
-      <div className="comment-meta">
+    <div className={`comment ${comment.isOwner ? 'user-comment' : ''}`}>
+      <p className="comment-text">{comment.text}</p>
+      <div className="comment-footer">
         <span className="comment-author">
-          {isUserComment ? 'You' : commentData.email.split('@')[0]}
+          {comment.isOwner ? 'You' : comment.username}
         </span>
         <span className="comment-date">{formattedDate}</span>
       </div>
@@ -26,4 +23,4 @@ const ExistingComment = ({ commentData }: { commentData: Comment }) => {
   );
 };
 
-export default ExistingComment; 
+export default ExistingComment;

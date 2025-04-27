@@ -112,7 +112,6 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
         
         {showComments && (
           <div className="comments-section">
-              <>
                 <NewComment
                   quoteId={quote._id} 
                   onCommentAdded={fetchComments}
@@ -125,13 +124,11 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
                     comments.map((comment, index) => (
                       <ExistingComment 
                         key={index}
-                        commentData={comment} 
+                        comment={comment} 
                       />
                     ))
                   )}
                 </div>
-              </>
-            )
           </div>
         )}
       </div>
