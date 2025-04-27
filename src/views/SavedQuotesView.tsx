@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import QuoteComponent from '../components/Quote';
+import QuoteComponent, {Quote} from '../components/Quote';
 
 const SavedQuotesView = () => {
   const [savedQuotes, setSavedQuotes] = useState<Quote[]>([]);
