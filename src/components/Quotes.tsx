@@ -40,13 +40,12 @@ const Quotes = () => {
   const saveQuote = async (quoteId: string) => {
     getAccessTokenSilently()
       .then(token => 
-        fetch('https://quotesapi.fly.dev/api/quotes/save', {
+        fetch(`https://quotesapi.fly.dev/api/quotes/save/${quoteId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
-          },
-          body: JSON.stringify({ quoteId })
+          }
         })
       )
       .then(response => {
