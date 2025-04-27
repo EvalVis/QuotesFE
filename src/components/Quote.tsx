@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState } from 'react';
-import CommentComponent, {Comment} from './Comment';
+import NewComment from './NewComment';
+import ExistingComment, {Comment} from './ExistingComment';
 
 export interface Quote {
   _id: string;
@@ -49,7 +50,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
     setQuote({ ...quote, saved: true });
   };
   
-  const toggleComments = async () => {    
+  const toggleComments = async () => {
     if (showComments && comments.length === 0) {
       await fetchComments();
     }
@@ -111,8 +112,8 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
         
         {showComments && (
           <div className="comments-section">
-              <div>
-                <CommentComponent
+              <>
+                <NewComment
                   quoteId={quote._id} 
                   onCommentAdded={fetchComments}
                 />
@@ -122,15 +123,15 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
                     <p className="no-comments">No comments yet. Be the first to comment!</p>
                   ) : (
                     comments.map((comment, index) => (
-                      <CommentComponent 
+                      <ExistingComment 
                         key={index}
-                        quoteId={quote._id} 
                         commentData={comment} 
                       />
                     ))
                   )}
                 </div>
-              </div>
+              </>
+            )
           </div>
         )}
       </div>
