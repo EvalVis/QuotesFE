@@ -51,7 +51,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   };
   
   const toggleComments = async () => {
-    if (showComments && comments.length === 0) {
+    if (!showComments && comments.length === 0) {
       await fetchComments();
     }
 

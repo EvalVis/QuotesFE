@@ -17,6 +17,7 @@ const ExistingComment = ({ comment }: { comment: Comment }) => {
         <span className="comment-author">
           {comment.isOwner ? 'You' : comment.username}
         </span>
+        <br />
         <span className="comment-date">{formattedDate}</span>
       </div>
     </div>
