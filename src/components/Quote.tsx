@@ -18,7 +18,7 @@ interface QuoteProps {
 const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }: QuoteProps) => {
   const [quote, setQuote] = useState<Quote>(initialQuote);
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState<CommentData[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
   const { user, getAccessTokenSilently } = useAuth0();
 
   const forget = async () => {
@@ -112,7 +112,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
         {showComments && (
           <div className="comments-section">
               <div>
-                <Comment 
+                <CommentComponent
                   quoteId={quote._id} 
                   onCommentAdded={fetchComments}
                 />
@@ -122,11 +122,10 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
                     <p className="no-comments">No comments yet. Be the first to comment!</p>
                   ) : (
                     comments.map((comment, index) => (
-                      <Comment 
+                      <CommentComponent 
                         key={index}
                         quoteId={quote._id} 
                         commentData={comment} 
-                        userEmail={user!.email}
                       />
                     ))
                   )}
