@@ -13,6 +13,7 @@ createRoot(document.getElementById('root')!).render(
         redirect_uri: window.location.origin,
         audience: "quotes.programmersdiary.com"
       }}
+      cacheLocation="localstorage"
     >
       <App />
     </Auth0Provider>
