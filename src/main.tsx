@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')!).render(
       clientId="v0YzxpAoJP6tLyW29TnZEuqStYkUF5fY"
       useRefreshTokens={ true }
       authorizationParams={{
-        redirect_uri: `${window.location.origin}/callback`,
+        redirect_uri: window.location.origin,
         audience: "quotes.programmersdiary.com"
       }}
       cacheLocation="localstorage"
