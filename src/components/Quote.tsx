@@ -9,6 +9,7 @@ export interface Quote {
   author: string;
   tags: string[];
   saved: boolean;
+  dateSaved?: string;
 }
 
 interface QuoteProps {
