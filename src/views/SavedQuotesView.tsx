@@ -21,8 +21,6 @@ const SavedQuotesView = () => {
         ...quote,
         saved: true
       }));
-      
-      quotes.sort((a: any, b: any) => new Date(b.dateSaved).getTime() - new Date(a.dateSaved).getTime());
       setSavedQuotes(quotes);
     };
 
