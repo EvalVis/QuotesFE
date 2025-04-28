@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')!).render(
       domain="dev-wzfkg4o26oz6ndmt.us.auth0.com"
       clientId="v0YzxpAoJP6tLyW29TnZEuqStYkUF5fY"
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/callback`,
         audience: "quotes.programmersdiary.com"
       }}
       cacheLocation="localstorage"
