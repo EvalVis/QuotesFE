@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { quotes } from './fakes/quotes';
@@ -14,7 +15,7 @@ describe('Quotes are displayed', () => {
       }
       if (url.includes('/api/quotes/saved')) {
         return Promise.resolve({
-          json: () => Promise.resolve([ quotes[1], quotes[2] ])
+          json: () => Promise.resolve(quotes)
         });
       }
       return Promise.reject(new Error('URL not found'));

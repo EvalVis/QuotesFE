@@ -21,7 +21,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   const [quote, setQuote] = useState<Quote>(initialQuote);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
-  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const forget = async () => {
       const token = await getAccessTokenSilently();
