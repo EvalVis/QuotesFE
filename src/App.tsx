@@ -23,7 +23,7 @@ function App() {
       {isAuthenticated ?
         <Profile /> :(
           <div className="login-container">
-            <p>Please log in to see quotes</p>
+            <p>Log in</p>
             <Login />
           </div>
         )
