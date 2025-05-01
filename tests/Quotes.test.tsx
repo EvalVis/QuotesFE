@@ -1,11 +1,16 @@
 import * as React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import { quotes } from './fakes/quotes';
 import QuotesView from '../src/views/QuotesView';
 import SavedQuotesView from '../src/views/SavedQuotesView';
+import { unauthenticated } from './fakes/auth0';
 
 describe('Quotes are displayed', () => {
+  beforeEach(() => {
+    vi.resetModules();
+  });
+
   beforeAll(() => {
     (window as any).fetch = vi.fn().mockImplementation((url: string) => {
       if (url.includes('/api/quotes/random')) {
@@ -23,6 +28,11 @@ describe('Quotes are displayed', () => {
   });
 
   it('Main page quotes are displayed', async () => {
+    vi.doMock('@auth0/auth0-react', () => ({
+      useAuth0: unauthenticated
+    }));
+    const { default: QuotesView } = await import('../src/views/QuotesView');
+
     render(<QuotesView />);
     expect(await screen.findByText(`"${quotes[0].quote}"`)).toBeInTheDocument();
     expect(await screen.findByText(`- ${quotes[0].author}`)).toBeInTheDocument();

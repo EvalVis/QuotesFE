@@ -19,7 +19,7 @@ describe('Comments work as expected', () => {
     });
   });
 
-  it('Comments are displayed in correct order when View comments button is clicked', async () => {
+  it('Comments are displayed in correct order to a logged in userwhen View comments button is clicked', async () => {
     render(<QuoteComponent quote={quotes[0]} />);
 
     const viewCommentsButton = screen.getByRole('button', { name: /view comments/i });
@@ -31,6 +31,27 @@ describe('Comments work as expected', () => {
 
     expect(firstComment.compareDocumentPosition(secondComment)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     expect(secondComment.compareDocumentPosition(thirdComment)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+  });
+
+  it('Comment values are displayed correctly', async () => {
+    render(<QuoteComponent quote={quotes[0]} />);
+
+    const viewCommentsButton = screen.getByRole('button', { name: /view comments/i });
+    fireEvent.click(viewCommentsButton);
+
+    const firstComment = await screen.findByText(comments[1].text);
+    const firstCommentContainer = firstComment.closest('div');
+    expect(within(firstCommentContainer!).getByText('You')).toBeInTheDocument();
+    const commentDate1 = new Date(comments[1].createdAt);
+    const formattedDate1 = `${commentDate1.toLocaleDateString()} ${commentDate1.toLocaleTimeString()}`;
+    expect(within(firstCommentContainer!).getByText(formattedDate1)).toBeInTheDocument();
+
+    const thirdComment = await screen.findByText(comments[2].text);
+    const thirdCommentContainer = thirdComment.closest('div');
+    expect(within(thirdCommentContainer!).getByText(comments[2].username)).toBeInTheDocument();
+    const commentDate2 = new Date(comments[2].createdAt);
+    const formattedDate2 = `${commentDate2.toLocaleDateString()} ${commentDate2.toLocaleTimeString()}`;
+    expect(within(thirdCommentContainer!).getByText(formattedDate2)).toBeInTheDocument();
   });
 
   it('Logged in user can create a comment', async () => {
@@ -68,26 +89,5 @@ describe('Comments work as expected', () => {
         })
       );
     });
-  });
-
-  it('Comment values are displayed correctly', async () => {
-    render(<QuoteComponent quote={quotes[0]} />);
-
-    const viewCommentsButton = screen.getByRole('button', { name: /view comments/i });
-    fireEvent.click(viewCommentsButton);
-
-    const firstComment = await screen.findByText(comments[1].text);
-    const firstCommentContainer = firstComment.closest('div');
-    expect(within(firstCommentContainer!).getByText('You')).toBeInTheDocument();
-    const commentDate1 = new Date(comments[1].createdAt);
-    const formattedDate1 = `${commentDate1.toLocaleDateString()} ${commentDate1.toLocaleTimeString()}`;
-    expect(within(firstCommentContainer!).getByText(formattedDate1)).toBeInTheDocument();
-
-    const thirdComment = await screen.findByText(comments[2].text);
-    const thirdCommentContainer = thirdComment.closest('div');
-    expect(within(thirdCommentContainer!).getByText(comments[2].username)).toBeInTheDocument();
-    const commentDate2 = new Date(comments[2].createdAt);
-    const formattedDate2 = `${commentDate2.toLocaleDateString()} ${commentDate2.toLocaleTimeString()}`;
-    expect(within(thirdCommentContainer!).getByText(formattedDate2)).toBeInTheDocument();
   });
 }); 
