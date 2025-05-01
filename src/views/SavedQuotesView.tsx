@@ -14,7 +14,7 @@ const SavedQuotesView = () => {
     const getSavedQuotes = async () => {
       const token = await getAccessTokenSilently();
       
-      const response = await fetch(`${import.meta.env.env.VITE_BE_URL}/api/quotes/saved`, {
+      const response = await fetch(`${import.meta.env.VITE_BE_URL}/api/quotes/saved`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

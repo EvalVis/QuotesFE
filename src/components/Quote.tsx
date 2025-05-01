@@ -65,7 +65,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   
   const fetchCommentsWhileLoggedIn = async () => {
     const token = await getAccessTokenSilently();
-    const response = await fetch(`${import.meta.env.env.VITE_BE_URL}/api/quotes/comments/${quote._id}`, {
+    const response = await fetch(`${import.meta.env.VITE_BE_URL}/api/quotes/comments/${quote._id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -87,7 +87,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
 
   const fetchCommentsWhileNotLoggedIn = async () => {
     await fetch(
-      `${import.meta.env.env.VITE_BE_URL}/api/quotes/comments/${quote._id}`
+      `${import.meta.env.VITE_BE_URL}/api/quotes/comments/${quote._id}`
     ).then(response => response.json())
     .then(data => {
       setComments(data);
