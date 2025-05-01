@@ -13,6 +13,7 @@ describe('Quote works as expected', () => {
       if (url.includes('/api/quotes/saved')) {
         return Promise.resolve({
           json: () => Promise.resolve(quotes)
+          json: () => Promise.resolve([quotes[1], quotes[2]])
         });
       }
       if (url.includes('/api/quotes/save')) {

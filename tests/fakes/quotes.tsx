@@ -20,6 +20,6 @@ export const quotes = [
       author: 'Author of the quote',
       tags: ['humor'],
       saved: true,
-      dateSaved: '2025-03-01T10:53:25.263Z'
+      dateSaved: '2025-06-01T10:53:25.263Z'
     }
   ];

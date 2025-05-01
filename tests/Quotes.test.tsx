@@ -15,7 +15,7 @@ describe('Quotes are displayed', () => {
       }
       if (url.includes('/api/quotes/saved')) {
         return Promise.resolve({
-          json: () => Promise.resolve(quotes)
+          json: () => Promise.resolve([quotes[1], quotes[2]])
         });
       }
       return Promise.reject(new Error('URL not found'));
@@ -42,7 +42,9 @@ describe('Quotes are displayed', () => {
   it('Saved quotes are ordered from newest to oldest', async () => {
     render(<SavedQuotesView />);
     
-    expect(await screen.findByText(`"${quotes[1].quote}"`)).toBeInTheDocument();
-    expect(await screen.findByText(`"${quotes[2].quote}"`)).toBeInTheDocument();
+    const firstQuote = await screen.findByText(`"${quotes[2].quote}"`);
+    const secondQuote = await screen.findByText(`"${quotes[1].quote}"`);
+    
+    expect(firstQuote.compareDocumentPosition(secondQuote)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 }); 

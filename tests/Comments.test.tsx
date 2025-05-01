@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { comments } from './fakes/comments';
-import QuoteComponent from '../src/components/Quote';
 import { quotes } from './fakes/quotes';
+import QuoteComponent from '../src/components/Quote';
 
 describe('Comments work as expected', () => {
   beforeEach(() => {
@@ -25,9 +25,12 @@ describe('Comments work as expected', () => {
     const viewCommentsButton = screen.getByRole('button', { name: /view comments/i });
     fireEvent.click(viewCommentsButton);
 
-    expect(await screen.findByText(comments[1].text)).toBeInTheDocument();
-    expect(await screen.findByText(comments[0].text)).toBeInTheDocument();
-    expect(await screen.findByText(comments[2].text)).toBeInTheDocument();
+    const firstComment = await screen.findByText(comments[1].text);
+    const secondComment = await screen.findByText(comments[0].text);
+    const thirdComment = await screen.findByText(comments[2].text);
+
+    expect(firstComment.compareDocumentPosition(secondComment)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(secondComment.compareDocumentPosition(thirdComment)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
   });
 
   it('Logged in user can create a comment', async () => {
@@ -65,5 +68,26 @@ describe('Comments work as expected', () => {
         })
       );
     });
+  });
+
+  it('Comment values are displayed correctly', async () => {
+    render(<QuoteComponent quote={quotes[0]} />);
+
+    const viewCommentsButton = screen.getByRole('button', { name: /view comments/i });
+    fireEvent.click(viewCommentsButton);
+
+    const firstComment = await screen.findByText(comments[1].text);
+    const firstCommentContainer = firstComment.closest('div');
+    expect(within(firstCommentContainer!).getByText('You')).toBeInTheDocument();
+    const commentDate1 = new Date(comments[1].createdAt);
+    const formattedDate1 = `${commentDate1.toLocaleDateString()} ${commentDate1.toLocaleTimeString()}`;
+    expect(within(firstCommentContainer!).getByText(formattedDate1)).toBeInTheDocument();
+
+    const thirdComment = await screen.findByText(comments[2].text);
+    const thirdCommentContainer = thirdComment.closest('div');
+    expect(within(thirdCommentContainer!).getByText(comments[2].username)).toBeInTheDocument();
+    const commentDate2 = new Date(comments[2].createdAt);
+    const formattedDate2 = `${commentDate2.toLocaleDateString()} ${commentDate2.toLocaleTimeString()}`;
+    expect(within(thirdCommentContainer!).getByText(formattedDate2)).toBeInTheDocument();
   });
 }); 
