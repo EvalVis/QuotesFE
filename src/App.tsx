@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Quotes API</h1>
+      <h1>Quotes</h1>
 
       {isAuthenticated ?
         <Profile /> :(
