@@ -3,7 +3,11 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 const NewComment = ({ quoteId }: { quoteId: string }) => {
   const [comment, setComment] = useState('');
-  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  if (!isAuthenticated) {
+    return <div className="no-login">Please login to comment.</div>;
+  }
   
   const addComment = async () => {    
     const token = await getAccessTokenSilently();

@@ -4,7 +4,11 @@ import QuoteComponent, {Quote} from '../components/Quote';
 
 const SavedQuotesView = () => {
   const [savedQuotes, setSavedQuotes] = useState<Quote[]>([]);
-  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  if (!isAuthenticated) {
+    return <div className="no-login">Please login to save quotes.</div>;
+  }
 
   useEffect(() => {
     const getSavedQuotes = async () => {

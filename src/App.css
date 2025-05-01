@@ -203,6 +203,12 @@
   font-style: italic;
 }
 
+.no-login {
+  text-align: center;
+  color: #666666;
+  font-style: bold;
+}
+
 .forget-button {
   background-color: #f44336;
   color: white;
