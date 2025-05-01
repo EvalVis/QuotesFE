@@ -53,11 +53,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   
   const toggleComments = async () => {
     if (!showComments && comments.length === 0) {
-      if (isAuthenticated) {
-        await fetchCommentsWhileLoggedIn();
-      } else {
-        await fetchCommentsWhileNotLoggedIn();
-      }
+      await refreshComments();
     }
 
     setShowComments(!showComments);
@@ -92,6 +88,14 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
     .then(data => {
       setComments(data);
     });
+  };
+
+  const refreshComments = async () => {
+    if (isAuthenticated) {
+      await fetchCommentsWhileLoggedIn();
+    } else {
+      await fetchCommentsWhileNotLoggedIn();
+    }
   };
 
   return (
@@ -130,7 +134,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
         
         {showComments && (
           <div className="comments-section">
-                <NewComment quoteId={quote._id} />
+                <NewComment quoteId={quote._id} onCommentAdded={refreshComments} />
                 
                 <div className="comments-list">
                   {comments.length === 0 ? (
