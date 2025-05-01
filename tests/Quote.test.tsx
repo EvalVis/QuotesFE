@@ -12,7 +12,6 @@ describe('Quote works as expected', () => {
     (window as any).fetch = vi.fn().mockImplementation((url: string) => {
       if (url.includes('/api/quotes/saved')) {
         return Promise.resolve({
-          json: () => Promise.resolve(quotes)
           json: () => Promise.resolve([quotes[1], quotes[2]])
         });
       }
