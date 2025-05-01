@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { quotes } from './fakes/quotes';
-import QuotesView from '../views/QuotesView';
-import SavedQuotesView from '../views/SavedQuotesView';
+import QuotesView from '../src/views/QuotesView';
+import SavedQuotesView from '../src/views/SavedQuotesView';
 
 describe('Quotes are displayed', () => {
   beforeAll(() => {

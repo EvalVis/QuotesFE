@@ -11,7 +11,7 @@ describe('Login components are displayed', () => {
     vi.doMock('@auth0/auth0-react', () => ({
       useAuth0: unauthenticated
     }));
-    const { default: App } = await import('../App');
+    const { default: App } = await import('../src/App');
     render(<App />);
     expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
   });
@@ -20,7 +20,7 @@ describe('Login components are displayed', () => {
     vi.doMock('@auth0/auth0-react', () => ({
       useAuth0: authenticated
     }));
-    const { default: App } = await import('../App');
+    const { default: App } = await import('../src/App');
     render(<App />);
     expect(screen.getByRole('button', { name: /log out/i })).toBeInTheDocument();
     expect(screen.getByText('Tester')).toBeInTheDocument();
