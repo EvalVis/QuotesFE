@@ -13,17 +13,22 @@
 .navigation {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem auto;
+  width: 100%;
 }
 
 .nav-button {
-  margin: 0 15px;
+  flex: 1;
+  max-width: 200px;
+  margin: 0;
   color: #4a90e2;
   background: none;
   border: none;
   font-weight: bold;
-  padding: 5px 10px;
-  border-radius: 4px;
+  padding: 1rem;
+  border-radius: 20px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
