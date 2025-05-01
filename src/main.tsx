@@ -1,18 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Auth0Provider } from '@auth0/auth0-react'
-import './index.css'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Auth0Provider
-      domain="dev-wzfkg4o26oz6ndmt.us.auth0.com"
-      clientId="v0YzxpAoJP6tLyW29TnZEuqStYkUF5fY"
-      useRefreshTokens={ true }
+      domain={import.meta.env.VITE_AUTH0_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
+      useRefreshTokens={import.meta.env.VITE_AUTH0_USE_REFRESH_TOKENS ?? false}
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: "quotes.programmersdiary.com"
+        audience: import.meta.env.VITE_AUTH0_AUDIENCE
       }}
       cacheLocation="localstorage"
     >

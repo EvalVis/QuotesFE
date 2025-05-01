@@ -11,14 +11,14 @@ const QuotesView = () => {
     if (isAuthenticated) {
       request = getAccessTokenSilently()
       .then(token => 
-        fetch('https://quotesapi.fly.dev/api/quotes/random', {
+        fetch(`${import.meta.env.env.VITE_BE_URL}/api/quotes/random`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
         })
       )
     } else {
-      request = fetch('https://quotesapi.fly.dev/api/quotes/random')
+      request = fetch(`${import.meta.env.env.VITE_BE_URL}/api/quotes/random`)
     }
     request
       .then(response => response.json())

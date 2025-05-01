@@ -12,7 +12,7 @@ const NewComment = ({ quoteId }: { quoteId: string }) => {
   const addComment = async () => {    
     const token = await getAccessTokenSilently();
     
-    await fetch(`https://quotesapi.fly.dev/api/quotes/addComment/${quoteId}`, {
+    await fetch(`${import.meta.env.env.VITE_BE_URL}/api/quotes/addComment/${quoteId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
