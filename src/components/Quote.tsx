@@ -74,8 +74,8 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
     );
     
     sortedComments = [
-      ...sortedComments.filter(c => c.email === user!.email),
-      ...sortedComments.filter(c => c.email !== user!.email)
+      ...sortedComments.filter(c => c.isOwner),
+      ...sortedComments.filter(c => !c.isOwner)
     ];
     
     setComments(sortedComments);
