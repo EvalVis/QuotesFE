@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { authenticated, unauthenticated } from './fakes/auth0';
 
-describe('Tests login components', () => {
+describe('Login components are displayed', () => {
   beforeEach(() => {
     vi.resetModules();
   });
