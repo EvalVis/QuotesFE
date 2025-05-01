@@ -19,35 +19,35 @@ function App() {
   return (
     <div className="app-container">
       <h1>Quotes API</h1>
+
+      {isAuthenticated ?
+        <Profile /> :(
+          <div className="login-container">
+            <p>Please log in to see quotes</p>
+            <Login />
+          </div>
+        )
+      }
       
-      {isAuthenticated ? (
-        <div>
-          <nav className="navigation">
-            <button 
-              onClick={() => setCurrentView('home')} 
-              className={`nav-button ${currentView === 'home' ? 'active' : ''}`}
-            >
-              Home
-            </button>
-            <button 
-              onClick={() => setCurrentView('saved')} 
-              className={`nav-button ${currentView === 'saved' ? 'active' : ''}`}
-            >
-              Saved Quotes
-            </button>
-          </nav>
-          
-          <Profile />
-          
-          {currentView === 'home' && <QuotesView />}
-          {currentView === 'saved' && <SavedQuotesView />}
-        </div>
-      ) : (
-        <div className="login-container">
-          <p>Please log in to see quotes</p>
-          <Login />
-        </div>
-      )}
+      <div>
+        <nav className="navigation">
+          <button 
+            onClick={() => setCurrentView('home')} 
+            className={`nav-button ${currentView === 'home' ? 'active' : ''}`}
+          >
+            Home
+          </button>
+          <button 
+            onClick={() => setCurrentView('saved')} 
+            className={`nav-button ${currentView === 'saved' ? 'active' : ''}`}
+          >
+            Saved Quotes
+          </button>
+        </nav>
+        
+        {currentView === 'home' && <QuotesView />}
+        {currentView === 'saved' && <SavedQuotesView />}
+      </div>
     </div>
   )
 }

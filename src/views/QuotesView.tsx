@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import QuoteComponent, {Quote} from '../components/Quote';
 
 const QuotesView = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [quotes, setQuotes] = useState<Quote[]>([]);
 
   function fetchRandomQuotes() {
-    getAccessTokenSilently()
+    let request;
+    if (isAuthenticated) {
+      request = getAccessTokenSilently()
       .then(token => 
         fetch('https://quotesapi.fly.dev/api/quotes/random', {
           headers: {
@@ -15,6 +17,10 @@ const QuotesView = () => {
           }
         })
       )
+    } else {
+      request = fetch('https://quotesapi.fly.dev/api/quotes/random')
+    }
+    request
       .then(response => response.json())
       .then(data => {
         const q = data.map((quote: any) => ({

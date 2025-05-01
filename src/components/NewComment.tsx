@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
-interface NewCommentProps {
-  quoteId: string;
-  onCommentAdded: () => void;
-}
-
-const NewComment = ({ quoteId, onCommentAdded }: NewCommentProps) => {
+const NewComment = ({ quoteId }: { quoteId: string }) => {
   const [comment, setComment] = useState('');
   const { getAccessTokenSilently } = useAuth0();
   
@@ -25,7 +20,6 @@ const NewComment = ({ quoteId, onCommentAdded }: NewCommentProps) => {
     });
     
     setComment('');
-    onCommentAdded();
   };
 
   return (

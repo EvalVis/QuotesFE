@@ -21,7 +21,7 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   const [quote, setQuote] = useState<Quote>(initialQuote);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const forget = async () => {
       const token = await getAccessTokenSilently();
@@ -53,13 +53,17 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   
   const toggleComments = async () => {
     if (!showComments && comments.length === 0) {
-      await fetchComments();
+      if (isAuthenticated) {
+        await fetchCommentsWhileLoggedIn();
+      } else {
+        await fetchCommentsWhileNotLoggedIn();
+      }
     }
 
     setShowComments(!showComments);
   };
   
-  const fetchComments = async () => {
+  const fetchCommentsWhileLoggedIn = async () => {
     const token = await getAccessTokenSilently();
     const response = await fetch(`https://quotesapi.fly.dev/api/quotes/comments/${quote._id}`, {
       headers: {
@@ -81,27 +85,40 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
     setComments(sortedComments);
   };
 
+  const fetchCommentsWhileNotLoggedIn = async () => {
+    await fetch(
+      `https://quotesapi.fly.dev/api/quotes/comments/${quote._id}`
+    ).then(response => response.json())
+    .then(data => {
+      setComments(data);
+    });
+  };
+
   return (
     <div className="quote-item">
       <p className="quote-text">"{quote.quote}"</p>
       <p className="quote-author">- {quote.author}</p>
       <p className="quote-tags">{quote.tags.join(', ')}</p>
       
-      {quote.saved ? (
-        <button 
-          onClick={forget}
-          className="forget-button"
-        >
-          Forget
-        </button>
-      ) : (
-        <button 
-          onClick={save}
-          className="save-button"
-        >
-          Save
-        </button>
-      )}
+      {isAuthenticated && 
+        (quote.saved ? (
+          <button 
+            onClick={forget}
+            className="forget-button"
+          >
+            Forget
+          </button>
+        ) : (
+          <button 
+            onClick={save}
+            className="save-button"
+          >
+            Save
+          </button>
+          )
+        )
+      }
+      
       
       <div className="comments-container">
         <button 
@@ -113,18 +130,15 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
         
         {showComments && (
           <div className="comments-section">
-                <NewComment
-                  quoteId={quote._id} 
-                  onCommentAdded={fetchComments}
-                />
+                <NewComment quoteId={quote._id} />
                 
                 <div className="comments-list">
                   {comments.length === 0 ? (
                     <p className="no-comments">No comments yet. Be the first to comment!</p>
                   ) : (
-                    comments.map((comment, index) => (
+                    comments.map((comment) => (
                       <ExistingComment 
-                        key={index}
+                        key={comment._id}
                         comment={comment} 
                       />
                     ))
