@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+[![codecov](https://codecov.io/github/EvalVis/QuotesFE/graph/badge.svg?token=R9X2SJQ259)](https://codecov.io/github/EvalVis/QuotesFE)
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
