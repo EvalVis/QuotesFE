@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, beforeAll, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import App from '../src/App';
 
 describe('Main components are displayed', () => {
+  beforeAll(() => {
+    vi.mock('../src/views/QuotesView', () => ({
+      default: () => <div>QuotesView</div>
+    }));
+  });
+
   beforeEach(() => {
     render(<App />);
   });
