@@ -20,19 +20,24 @@ For project to run, several env variables are needed to be setup.
 **`VITE_AUTH0_DOMAIN`**
 Address where client authentication requests will be routed. Provided by Quotes backend owner.
 Already setup Auth0 domain: dev-wzfkg4o26oz6ndmt.us.auth0.com.
+
 **`VITE_AUTH0_CLIENT_ID`**
 Provided by Quotes backend owner.
 Already setup Auth0 client id: v0YzxpAoJP6tLyW29TnZEuqStYkUF5fY.
+
 **`VITE_AUTH0_USE_REFRESH_TOKENS`**
 Boolean - determines if user would be automatically logged in again after the short lived token expires. Optional: default value is false.
 
 You can control refresh tokens if quotes backend owner has them enabled.
 
 Currently setup Auth0 has refresh tokens enabled, however you can still disable them in your own frontend app.
+
 **`VITE_AUTH0_AUDIENCE`**
 Provided by Quotes backend owner. The already running project has value: quotes.programmersdiary.com.
+
 **`VITE_BE_URL`**
 URL of the Backend service which hosts the quotes. Currently running BE has value: https://quotesapi.fly.dev.
+
 ### Running locally
 ```
 npm install
