@@ -24,8 +24,10 @@ Already setup Auth0 domain: dev-wzfkg4o26oz6ndmt.us.auth0.com.
 Provided by Quotes backend owner.
 Already setup Auth0 client id: v0YzxpAoJP6tLyW29TnZEuqStYkUF5fY.
 **`VITE_AUTH0_USE_REFRESH_TOKENS`**
-Boolean - determines if user would be automatically logged in again after the short lived token expires.
+Boolean - determines if user would be automatically logged in again after the short lived token expires. Optional: default value is false.
+
 You can control refresh tokens if quotes backend owner has them enabled.
+
 Currently setup Auth0 has refresh tokens enabled, however you can still disable them in your own frontend app.
 **`VITE_AUTH0_AUDIENCE`**
 Provided by Quotes backend owner. The already running project has value: quotes.programmersdiary.com.
