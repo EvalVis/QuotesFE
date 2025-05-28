@@ -28,49 +28,6 @@
   color: #2a6fbf;
 }
 
-.save-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
-.save-button:hover {
-  background-color: #45a049;
-}
-
-.save-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-size: 1.2rem;
-}
-
-.forget-button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-}
-
-.forget-button:hover {
-  background-color: #d32f2f;
-}
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -284,4 +241,24 @@ button:focus-visible {
 
 .comment-author {
   @apply font-bold;
+}
+
+.save-button {
+  @apply bg-green-600 text-white px-2.5 py-1.5 rounded mt-2.5 transition-colors duration-300;
+}
+
+.save-button:hover {
+  @apply bg-green-700;
+}
+
+.loading {
+  @apply flex justify-center items-center h-screen text-lg;
+}
+
+.forget-button {
+  @apply bg-red-600 text-white px-2.5 py-1.5 rounded mt-2.5 transition-colors duration-300;
+}
+
+.forget-button:hover {
+  @apply bg-red-700;
 }
