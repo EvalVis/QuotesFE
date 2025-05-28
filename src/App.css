@@ -28,20 +28,6 @@
   width: 100%;
 }
 
-.nav-button {
-  flex: 1;
-  max-width: 200px;
-  margin: 0;
-  color: #4a90e2;
-  background: none;
-  border: none;
-  font-weight: bold;
-  padding: 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
 .nav-button:hover {
   background-color: rgba(74, 144, 226, 0.1);
 }
@@ -374,4 +360,8 @@ button:focus-visible {
 
 .refresh-button {
   @apply w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 px-8 border-b-4 border-primary-border hover:border-primary-border-hover mb-4 rounded-full text-[1.2rem] transition-colors duration-300;
+}
+
+.nav-button {
+  @apply flex-1 max-w-xs text-primary font-bold p-4 rounded-2xl transition-colors duration-300;
 }
