@@ -19,15 +19,6 @@
   margin: 0 auto;
 }
 
-.nav-button:hover {
-  background-color: rgba(74, 144, 226, 0.1);
-}
-
-.nav-button.active {
-  background-color: rgba(74, 144, 226, 0.2);
-  color: #2a6fbf;
-}
-
 a {
   font-weight: 500;
   color: #646cff;
@@ -74,6 +65,14 @@ button {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.nav-button:hover {
+  @apply bg-primary/10;
+}
+
+.nav-button.active {
+  @apply bg-primary/20 text-primary;
 }
 
 .navigation {
