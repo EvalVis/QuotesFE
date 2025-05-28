@@ -14,11 +14,6 @@
   text-align: center;
 }
 
-.app-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
