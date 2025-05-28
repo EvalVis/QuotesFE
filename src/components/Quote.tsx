@@ -99,10 +99,21 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   };
 
   return (
-    <div className="quote-item">
-      <p className="quote-text">"{quote.quote}"</p>
-      <p className="quote-author">- {quote.author}</p>
-      <p className="quote-tags">{quote.tags.join(', ')}</p>
+    <div className="max-w-full rounded-3xl overflow-hidden shadow-lg">
+      <div className="px-6 py-4">
+        <div className="text-xl mb-2">"{quote.quote}"</div>
+        <p className="font-bold text-gray-700 text-right">- {quote.author}</p>
+    </div>
+    <div className="px-6 pt-4 pb-2">
+    {quote.tags.map((tag) => (
+      <span
+        key={tag}
+        className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+      >
+        #{tag}
+      </span>
+    ))}
+    </div>
       
       {isAuthenticated && 
         (quote.saved ? (
