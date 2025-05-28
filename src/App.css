@@ -131,7 +131,7 @@ button:focus-visible {
 }
 
 .profile {
-  @apply flex items-center p-4 bg-red-500 rounded-lg mb-4
+  @apply flex items-center p-4 rounded-lg mb-4
 }
 
 .profile img {
