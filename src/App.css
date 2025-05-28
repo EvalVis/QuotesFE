@@ -37,47 +37,6 @@
   color: #2a6fbf;
 }
 
-.login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  margin-top: 2rem;
-}
-
-.login-button {
-  width: 100%;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.5s;
-  background-color: #4285f4;
-  color: white;
-}
-
-.login-button:hover {
-  background-color: #3367d6;
-}
-
-.logout-button {
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  background-color: #f44336;
-  color: white;
-}
-
-.logout-button:hover {
-  background-color: #d32f2f;
-}
-
 .quotes-container {
   margin-top: 2rem;
   padding: 1rem;
@@ -353,4 +312,24 @@ button:focus-visible {
 
 .profile-info p {
   @apply mt-2 text-gray-500;
+}
+
+.login-container {
+  @apply flex flex-col items-center justify-center p-8 rounded-lg mt-8;
+}
+
+.login-button {
+  @apply w-full px-8 py-4 text-xl text-white bg-primary transition-colors duration-300;
+}
+
+.login-button:hover {
+  @apply bg-primary-hover;
+}
+
+.logout-button {
+  @apply px-5 py-2.5 text-base text-white rounded transition-colors duration-300 bg-red-500;
+}
+
+.logout-button:hover {
+  @apply bg-red-700;
 }
