@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #4a90e2;
+  --color-primary-hover: #357abd;
+  --color-primary-border: #2a6fbf;
+  --color-primary-border-hover: #1e5b9b;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -122,23 +129,6 @@
   border-radius: 8px;
   background-color: #f8f8f8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.refresh-button {
-  width: 100%;
-  background-color: #4a90e2;
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-  transition: background-color 0.3s;
-}
-
-.refresh-button:hover {
-  background-color: #357abd;
 }
 
 .save-button {
@@ -364,4 +354,7 @@ button:focus-visible {
 
 .comment-author {
   font-weight: bold;
+}
+.refresh-button {
+  @apply w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 px-8 border-b-4 border-primary-border hover:border-primary-border-hover mb-4 rounded-full text-[1.2rem] transition-colors duration-300;
 }
