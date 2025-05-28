@@ -99,12 +99,12 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
   };
 
   return (
-    <div className="max-w-full rounded-3xl overflow-hidden shadow-lg">
+    <div className="quote-item">
       <div className="px-6 py-4">
-        <div className="text-xl mb-2">"{quote.quote}"</div>
-        <p className="font-bold text-gray-700 text-right">- {quote.author}</p>
+        <div className="quote-text">"{quote.quote}"</div>
+        <p className="quote-author">- {quote.author}</p>
     </div>
-    <div className="px-6 pt-4 pb-2">
+    <div className="quote-tags">
     {quote.tags.map((tag) => (
       <span
         key={tag}

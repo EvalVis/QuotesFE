@@ -355,6 +355,23 @@ button:focus-visible {
 .comment-author {
   font-weight: bold;
 }
+
+.quote-item {
+  @apply max-w-full rounded-3xl overflow-hidden shadow-lg;
+}
+
+.quote-text {
+  @apply text-xl mb-2;
+}
+
+.quote-author {
+  @apply font-bold text-gray-700 text-right;
+}
+
+.quote-tags {
+  @apply px-6 pt-4 pb-2;
+}
+
 .refresh-button {
   @apply w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 px-8 border-b-4 border-primary-border hover:border-primary-border-hover mb-4 rounded-full text-[1.2rem] transition-colors duration-300;
 }
