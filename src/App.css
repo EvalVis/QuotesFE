@@ -63,37 +63,6 @@
   background-color: #3367d6;
 }
 
-.profile {
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-}
-
-.profile img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-right: 1rem;
-}
-
-.profile-info {
-  flex: 1;
-  text-align: left;
-}
-
-.profile-info h2 {
-  margin: 0;
-  font-size: 1.4rem;
-}
-
-.profile-info p {
-  margin: 0.5rem 0 0;
-  color: #666;
-}
-
 .logout-button {
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
@@ -364,4 +333,24 @@ button:focus-visible {
 
 .nav-button {
   @apply flex-1 max-w-xs text-primary font-bold p-4 rounded-2xl transition-colors duration-300;
+}
+
+.profile {
+  @apply flex items-center p-4 bg-red-500 rounded-lg mb-4
+}
+
+.profile img {
+  @apply w-[60px] h-[60px] rounded-full mr-4;
+}
+
+.profile-info {
+  @apply flex-1 text-left;
+}
+
+.profile-info h2 {
+  @apply text-2xl;
+}
+
+.profile-info p {
+  @apply mt-2 text-gray-500;
 }
