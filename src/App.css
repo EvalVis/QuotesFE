@@ -68,7 +68,7 @@ h1 {
 }
 
 .profile {
-  @apply flex items-center p-4 rounded-lg mb-4
+  @apply flex items-center p-4 rounded-lg mb-4 shadow-lg;
 }
 
 .profile img {
