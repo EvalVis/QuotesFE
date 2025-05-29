@@ -61,13 +61,6 @@ npm run coverage
 
 [![codecov](https://codecov.io/github/EvalVis/QuotesFE/graph/badge.svg?token=R9X2SJQ259)](https://codecov.io/github/EvalVis/QuotesFE)
 
-## Contributing
-Contributions are welcome. To contribute:
-1. Fork the repo.
-2. Create a new branch.
-3. Commit your changes.
-4. Raise a pull request.
-
 ## Hosting
 Simplest way to host is to use [<small>vercel.com</small>](https://vercel.com). It automatically detects app config and hosts the app on the cloud.
 
