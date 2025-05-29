@@ -51,7 +51,8 @@ describe('Quote works as expected', () => {
     render(<SavedQuotesView />);
 
     const quoteText = await screen.findByText(`"${quotes[1].quote}"`);
-    const quoteContainer = quoteText.closest('div');
+    
+    const quoteContainer = quoteText.closest('.quote-item') as HTMLElement;
     
     const forgetButton = within(quoteContainer!).getByRole('button', { name: /forget/i });
     fireEvent.click(forgetButton);

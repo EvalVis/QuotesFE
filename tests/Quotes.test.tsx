@@ -36,7 +36,8 @@ describe('Quotes are displayed', () => {
     render(<QuotesView />);
     expect(await screen.findByText(`"${quotes[0].quote}"`)).toBeInTheDocument();
     expect(await screen.findByText(`- ${quotes[0].author}`)).toBeInTheDocument();
-    expect(await screen.findByText(quotes[0].tags.join(', '))).toBeInTheDocument();
+    expect(await screen.findByText('#life')).toBeInTheDocument();
+    expect(await screen.findByText('#purpose')).toBeInTheDocument();
   });
 
   it('Saved quotes are displayed', async () => {
@@ -45,7 +46,8 @@ describe('Quotes are displayed', () => {
     await waitFor(() => {
       expect(screen.getByText(`"${quotes[1].quote}"`)).toBeInTheDocument();
       expect(screen.getByText(`- ${quotes[1].author}`)).toBeInTheDocument();
-      expect(screen.getByText(quotes[1].tags.join(', '))).toBeInTheDocument();
+      expect(screen.getByText('#life')).toBeInTheDocument();
+      expect(screen.getByText('#wisdom')).toBeInTheDocument();
     });
   });
 
