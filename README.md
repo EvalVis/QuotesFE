@@ -73,3 +73,11 @@ Simplest way to host is to use [<small>vercel.com</small>](https://vercel.com). 
 
 
 [![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel)](https://quotes.programmersdiary.com/)
+
+# Contributing
+
+Please read a `CONTRIBUTING.md` file.
+
+# License
+
+Please read a `LICENSE` file.
