@@ -1,8 +1,15 @@
 {
   "name": "quotes",
-  "private": true,
-  "version": "0.0.0",
+  "description": "Frontend for open-source Quotes app for viewing/saving/commenting on quotes",
+  "version": "1.0.0",
   "type": "module",
+  "keywords": [
+    "open-source",
+    "quotes",
+    "web-app",
+    "React",
+    "Vite"
+  ],
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage",
