@@ -2,6 +2,10 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-EvalVis/QuotesBE-black?style=flat&logo=github)](https://github.com/EvalVis/QuotesBE) - Check out the Backend
 
+![Main page](images/main_page.png)
+
+![Saved quotes page](images/saved_quotes_page.png)
+
 ## Functionality
  1. View random quotes shown on the main page
  2. See comments on the quotes. Comments are shown from the most recent.
