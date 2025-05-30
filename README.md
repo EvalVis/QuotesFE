@@ -2,7 +2,11 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-EvalVis/QuotesBE-black?style=flat&logo=github)](https://github.com/EvalVis/QuotesBE) - Check out the Backend
 
+<p align="center"><strong>Main page</strong></p>
+
 ![Main page](images/main_page.png)
+
+<p align="center"><strong>Saved quotes page</strong></p>
 
 ![Saved quotes page](images/saved_quotes_page.png)
 
