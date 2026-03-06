@@ -63,6 +63,34 @@ h1 {
   @apply w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 px-8 border-b-4 border-primary-border hover:border-primary-border-hover mb-4 rounded-full text-[1.2rem] transition-colors duration-300;
 }
 
+.tag-filter-section {
+  @apply mb-4 pb-4 border-b border-gray-300;
+}
+
+.tag-filter-label {
+  @apply block text-sm font-semibold text-gray-600 mb-2;
+}
+
+.tag-filter-list {
+  @apply flex flex-wrap gap-2 items-center;
+}
+
+.tag-filter-chip {
+  @apply inline-block bg-gray-200 rounded-full px-3 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-300 transition-colors duration-200;
+}
+
+.tag-filter-chip.active {
+  @apply bg-primary text-white hover:bg-primary-hover;
+}
+
+.tag-filter-clear {
+  @apply text-sm text-primary font-semibold hover:underline ml-2;
+}
+
+.no-quotes-filtered {
+  @apply text-center p-5 text-gray-600 italic;
+}
+
 .nav-button {
   @apply flex-1 max-w-xs text-primary font-bold p-4 rounded-2xl transition-colors duration-300;
 }
