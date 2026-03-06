@@ -15,9 +15,11 @@ export interface Quote {
 interface QuoteProps {
   quote: Quote;
   onForget?: (quoteId: string) => void;
+  onTagClick?: (tag: string) => void;
+  selectedTag?: string | null;
 }
 
-const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }: QuoteProps) => {
+const QuoteComponent = ({ quote: initialQuote, onForget: onForget = () => {}, onTagClick, selectedTag }: QuoteProps) => {
   const [quote, setQuote] = useState<Quote>(initialQuote);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -106,12 +108,27 @@ const QuoteComponent = ({ quote: initialQuote, onForget: onForget = (_) => {} }:
     </div>
     <div className="quote-tags">
     {quote.tags.map((tag) => (
-      <span
-        key={tag}
-        className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-      >
-        #{tag}
-      </span>
+      onTagClick ? (
+        <button
+          key={tag}
+          type="button"
+          onClick={() => onTagClick(tag)}
+          className={`inline-block rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 transition-colors duration-200 ${
+            selectedTag === tag
+              ? 'bg-primary text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          #{tag}
+        </button>
+      ) : (
+        <span
+          key={tag}
+          className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+        >
+          #{tag}
+        </span>
+      )
     ))}
     </div>
       
