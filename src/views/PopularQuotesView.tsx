@@ -13,6 +13,7 @@ const PopularQuotesView = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [authorFilter, setAuthorFilter] = useState("");
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const uniqueTags = useMemo(() => {
@@ -22,9 +23,18 @@ const PopularQuotesView = () => {
   }, [quotes]);
 
   const filteredQuotes = useMemo(() => {
-    if (!selectedTag) return quotes;
-    return quotes.filter((q) => q.tags?.includes(selectedTag));
-  }, [quotes, selectedTag]);
+    let result = quotes;
+    if (selectedTag) {
+      result = result.filter((q) => q.tags?.includes(selectedTag));
+    }
+    const authorQuery = authorFilter.trim().toLowerCase();
+    if (authorQuery) {
+      result = result.filter(
+        (q) => (q.author || "").trim().toLowerCase() === authorQuery,
+      );
+    }
+    return result;
+  }, [quotes, selectedTag, authorFilter]);
 
   const totalPages = useMemo(() => {
     if (totalCount === null) return 1;
@@ -129,6 +139,29 @@ const PopularQuotesView = () => {
         Quotes saved most often by users. The wisdom of the crowd.
       </p>
 
+      <div className="author-filter-section">
+        <label htmlFor="popular-author-filter" className="tag-filter-label">
+          Filter by author (exact match, case-insensitive):
+        </label>
+        <input
+          id="popular-author-filter"
+          type="text"
+          value={authorFilter}
+          onChange={(e) => setAuthorFilter(e.target.value)}
+          placeholder="e.g. William Shakespeare"
+          className="author-filter-input"
+        />
+        {authorFilter.trim() && (
+          <button
+            type="button"
+            onClick={() => setAuthorFilter("")}
+            className="tag-filter-clear"
+          >
+            Clear author
+          </button>
+        )}
+      </div>
+
       {uniqueTags.length > 0 && (
         <div className="tag-filter-section">
           <span className="tag-filter-label">Filter by tag:</span>
@@ -161,12 +194,14 @@ const PopularQuotesView = () => {
           <div className="popular-quotes-loading-inline">
             Refreshing...
           </div>
-        ) : filteredQuotes.length === 0 && selectedTag ? (
-          <p className="no-quotes-filtered">
-            No popular quotes with tag #{selectedTag}. Try another tag.
-          </p>
         ) : filteredQuotes.length === 0 ? (
-          <p className="no-quotes-filtered">No popular quotes found.</p>
+          <p className="no-quotes-filtered">
+            {authorFilter.trim()
+              ? `No popular quotes by "${authorFilter.trim()}". Try another author.`
+              : selectedTag
+                ? `No popular quotes with tag #${selectedTag}. Try another tag.`
+                : "No popular quotes found."}
+          </p>
         ) : (
           filteredQuotes.map((quote) => (
             <QuoteComponent

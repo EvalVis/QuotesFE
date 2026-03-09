@@ -63,6 +63,18 @@ h1 {
   @apply w-full bg-primary hover:bg-primary-hover text-white font-bold py-4 px-8 border-b-4 border-primary-border hover:border-primary-border-hover mb-4 rounded-full text-[1.2rem] transition-colors duration-300;
 }
 
+.author-filter-section {
+  @apply mb-4 pb-4 border-b border-gray-300;
+}
+
+.author-filter-input {
+  @apply w-full max-w-md px-3 py-2 border border-gray-300 rounded text-base;
+}
+
+.author-filter-input:focus {
+  @apply outline-none border-primary ring-1 ring-primary;
+}
+
 .tag-filter-section {
   @apply mb-4 pb-4 border-b border-gray-300;
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, beforeAll } from "vitest";
 import { quotes } from "./fakes/quotes";
 // import QuotesView from "../src/views/QuotesView";
@@ -74,6 +74,28 @@ describe("Quotes are displayed", () => {
       expect(screen.getByText(`- ${quotes[0].author}`)).toBeDefined();
       expect(screen.getByText("Top 100 Popular Quotes")).toBeDefined();
     });
+  });
+
+  it("Filters quotes by author (exact match, case-insensitive)", async () => {
+    vi.doMock("@auth0/auth0-react", () => ({
+      useAuth0: unauthenticated,
+    }));
+    const { default: QuotesView } = await import("../src/views/QuotesView");
+    render(<QuotesView />);
+
+    await screen.findByText(`"${quotes[0].quote}"`);
+
+    const authorInput = screen.getByLabelText(/Filter by author/i);
+    expect(authorInput).toBeDefined();
+
+    // Exact match ignoring case: "not important" matches "Not important"
+    fireEvent.change(authorInput, { target: { value: "not important" } });
+    expect(screen.getByText(`"${quotes[0].quote}"`)).toBeDefined();
+    expect(screen.getByText(`- ${quotes[0].author}`)).toBeDefined();
+
+    // Partial match does not match: "not imp" should show no results
+    fireEvent.change(authorInput, { target: { value: "not imp" } });
+    expect(screen.getByText(/No quotes by "not imp"/)).toBeDefined();
   });
 
   it("Saved quotes are ordered from newest to oldest", async () => {

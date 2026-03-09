@@ -7,6 +7,7 @@ import QuoteComponent, { Quote } from "../components/Quote";
 const SavedQuotesView = () => {
   const [savedQuotes, setSavedQuotes] = useState<Quote[]>([]);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [authorFilter, setAuthorFilter] = useState("");
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const uniqueTags = useMemo(() => {
@@ -16,9 +17,20 @@ const SavedQuotesView = () => {
   }, [savedQuotes]);
 
   const filteredQuotes = useMemo(() => {
-    if (!selectedTag) return savedQuotes;
-    return savedQuotes.filter((q) => q.tags?.includes(selectedTag));
-  }, [savedQuotes, selectedTag]);
+    let result = savedQuotes;
+    if (selectedTag) {
+      result = result.filter((q) => q.tags?.includes(selectedTag));
+    }
+    const authorQuery = authorFilter.trim().toLowerCase();
+    if (authorQuery) {
+      result = result.filter(
+        (q) => (q.author || "").trim().toLowerCase() === authorQuery,
+      );
+    }
+    return result;
+  }, [savedQuotes, selectedTag, authorFilter]);
+
+  console.log("filteredQuotes", filteredQuotes);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -74,6 +86,28 @@ const SavedQuotesView = () => {
   return (
     <div className="saved-quotes">
       <h2>Your Saved Quotes</h2>
+      <div className="author-filter-section">
+        <label htmlFor="saved-author-filter" className="tag-filter-label">
+          Filter by author (exact match, case-insensitive):
+        </label>
+        <input
+          id="saved-author-filter"
+          type="text"
+          value={authorFilter}
+          onChange={(e) => setAuthorFilter(e.target.value)}
+          placeholder="e.g. William Shakespeare"
+          className="author-filter-input"
+        />
+        {authorFilter.trim() && (
+          <button
+            type="button"
+            onClick={() => setAuthorFilter("")}
+            className="tag-filter-clear"
+          >
+            Clear author
+          </button>
+        )}
+      </div>
       {uniqueTags.length > 0 && (
         <div className="tag-filter-section">
           <span className="tag-filter-label">Filter by tag:</span>
@@ -101,9 +135,13 @@ const SavedQuotesView = () => {
         </div>
       )}
       <div className="quotes-container">
-        {filteredQuotes.length === 0 && selectedTag ? (
+        {filteredQuotes.length === 0 ? (
           <p className="no-quotes-filtered">
-            No saved quotes with tag #{selectedTag}. Try another tag.
+            {authorFilter.trim()
+              ? `No saved quotes by "${authorFilter.trim()}". Try another author.`
+              : selectedTag
+                ? `No saved quotes with tag #${selectedTag}. Try another tag.`
+                : "No saved quotes match."}
           </p>
         ) : (
           filteredQuotes.map((quote) => (
