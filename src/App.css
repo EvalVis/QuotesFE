@@ -227,3 +227,46 @@ h1 {
 .forget-button:hover {
   @apply bg-red-700;
 }
+
+/* Popular quotes view */
+.popular-quotes h2 {
+  @apply text-center mb-2 text-gray-800 text-2xl font-bold tracking-wide;
+}
+
+.popular-quotes-description {
+  @apply text-center mb-6 text-gray-600;
+}
+
+.popular-quotes-loading,
+.popular-quotes-error {
+  @apply text-center p-8;
+}
+
+.popular-quotes-error p {
+  @apply mb-2;
+}
+
+.popular-quotes-error-hint {
+  @apply text-sm text-gray-600 mb-4;
+}
+
+.popular-quotes-loading-inline {
+  @apply text-center p-4 text-gray-600;
+}
+
+/* Pagination */
+.pagination {
+  @apply mt-8 p-4 flex flex-col items-center gap-4 border-t border-gray-300;
+}
+
+.pagination-info {
+  @apply text-sm text-gray-600;
+}
+
+.pagination-buttons {
+  @apply flex gap-4;
+}
+
+.pagination-button {
+  @apply bg-primary hover:bg-primary-hover text-white font-bold py-2 px-6 rounded transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary;
+}
