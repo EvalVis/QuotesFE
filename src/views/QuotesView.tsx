@@ -6,6 +6,7 @@ const QuotesView = () => {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [authorFilter, setAuthorFilter] = useState("");
 
   const uniqueTags = useMemo(() => {
     const tags = new Set<string>();
@@ -14,9 +15,18 @@ const QuotesView = () => {
   }, [quotes]);
 
   const filteredQuotes = useMemo(() => {
-    if (!selectedTag) return quotes;
-    return quotes.filter((q) => q.tags?.includes(selectedTag));
-  }, [quotes, selectedTag]);
+    let result = quotes;
+    if (selectedTag) {
+      result = result.filter((q) => q.tags?.includes(selectedTag));
+    }
+    const authorQuery = authorFilter.trim().toLowerCase();
+    if (authorQuery) {
+      result = result.filter(
+        (q) => (q.author || "").trim().toLowerCase() === authorQuery,
+      );
+    }
+    return result;
+  }, [quotes, selectedTag, authorFilter]);
 
   function fetchRandomQuotes() {
     let request;
@@ -57,6 +67,28 @@ const QuotesView = () => {
       <button onClick={fetchRandomQuotes} className="refresh-button">
         Refresh Quotes
       </button>
+      <div className="author-filter-section">
+        <label htmlFor="author-filter" className="tag-filter-label">
+          Filter by author (exact match, case-insensitive):
+        </label>
+        <input
+          id="author-filter"
+          type="text"
+          value={authorFilter}
+          onChange={(e) => setAuthorFilter(e.target.value)}
+          placeholder="e.g. William Shakespeare"
+          className="author-filter-input"
+        />
+        {authorFilter.trim() && (
+          <button
+            type="button"
+            onClick={() => setAuthorFilter("")}
+            className="tag-filter-clear"
+          >
+            Clear author
+          </button>
+        )}
+      </div>
       {uniqueTags.length > 0 && (
         <div className="tag-filter-section">
           <span className="tag-filter-label">Filter by tag:</span>
@@ -85,9 +117,11 @@ const QuotesView = () => {
       )}
       {filteredQuotes.length === 0 ? (
         <p className="no-quotes-filtered">
-          {selectedTag
-            ? `No quotes with tag #${selectedTag}. Try another tag or refresh.`
-            : "Loading quotes..."}
+          {authorFilter.trim()
+            ? `No quotes by "${authorFilter.trim()}". Try another author or refresh.`
+            : selectedTag
+              ? `No quotes with tag #${selectedTag}. Try another tag or refresh.`
+              : "Loading quotes..."}
         </p>
       ) : (
         filteredQuotes.map((quote) => (
