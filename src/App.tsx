@@ -4,9 +4,10 @@ import Profile from './components/Profile'
 import Login from './components/Login'
 import QuotesView from './views/QuotesView'
 import SavedQuotesView from './views/SavedQuotesView'
+import PopularQuotesView from './views/PopularQuotesView'
 import './App.css'
 
-type View = 'home' | 'saved';
+type View = 'home' | 'saved' | 'popular';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('home')
@@ -37,6 +38,12 @@ function App() {
             Home
           </button>
           <button 
+            onClick={() => setCurrentView('popular')} 
+            className={`nav-button ${currentView === 'popular' ? 'active' : ''}`}
+          >
+            Popular Quotes
+          </button>
+          <button 
             onClick={() => setCurrentView('saved')} 
             className={`nav-button ${currentView === 'saved' ? 'active' : ''}`}
           >
@@ -45,6 +52,7 @@ function App() {
         </nav>
         
         {currentView === 'home' && <QuotesView />}
+        {currentView === 'popular' && <PopularQuotesView />}
         {currentView === 'saved' && <SavedQuotesView />}
       </div>
     </div>

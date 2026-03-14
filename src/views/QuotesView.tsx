@@ -17,6 +17,7 @@ const QuotesView = () => {
     if (!selectedTag) return quotes;
     return quotes.filter((q) => q.tags?.includes(selectedTag));
   }, [quotes, selectedTag]);
+  console.log("filteredQuotes", filteredQuotes);
 
   function fetchRandomQuotes() {
     let request;

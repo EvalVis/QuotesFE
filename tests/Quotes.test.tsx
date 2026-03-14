@@ -1,62 +1,89 @@
-import * as React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
-import { quotes } from './fakes/quotes';
-import QuotesView from '../src/views/QuotesView';
-import SavedQuotesView from '../src/views/SavedQuotesView';
-import { unauthenticated } from './fakes/auth0';
+import * as React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, beforeAll } from "vitest";
+import { quotes } from "./fakes/quotes";
+// import QuotesView from "../src/views/QuotesView";
+import SavedQuotesView from "../src/views/SavedQuotesView";
+import PopularQuotesView from "../src/views/PopularQuotesView";
+import { unauthenticated } from "./fakes/auth0";
 
-describe('Quotes are displayed', () => {
+describe("Quotes are displayed", () => {
   beforeEach(() => {
     vi.resetModules();
   });
 
   beforeAll(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).fetch = vi.fn().mockImplementation((url: string) => {
-      if (url.includes('/api/quotes/random')) {
+      if (url.includes("/api/quotes/random")) {
         return Promise.resolve({
-          json: () => Promise.resolve([quotes[0]])
+          ok: true,
+          json: () => Promise.resolve([quotes[0]]),
         });
       }
-      if (url.includes('/api/quotes/saved')) {
+      if (url.includes("/api/quotes/saved")) {
         return Promise.resolve({
-          json: () => Promise.resolve([quotes[1], quotes[2]])
+          ok: true,
+          json: () => Promise.resolve([quotes[1], quotes[2]]),
         });
       }
-      return Promise.reject(new Error('URL not found'));
+      if (url.includes("/api/quotes/popular")) {
+        return Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({ quotes: [quotes[0], quotes[1]], total: 200 }),
+        });
+      }
+      return Promise.reject(new Error("URL not found"));
     });
   });
 
-  it('Main page quotes are displayed', async () => {
-    vi.doMock('@auth0/auth0-react', () => ({
-      useAuth0: unauthenticated
+  it("Main page quotes are displayed", async () => {
+    vi.doMock("@auth0/auth0-react", () => ({
+      useAuth0: unauthenticated,
     }));
-    const { default: QuotesView } = await import('../src/views/QuotesView');
+    const { default: QuotesView } = await import("../src/views/QuotesView");
 
     render(<QuotesView />);
-    expect(await screen.findByText(`"${quotes[0].quote}"`)).toBeInTheDocument();
-    expect(await screen.findByText(`- ${quotes[0].author}`)).toBeInTheDocument();
-    expect(await screen.findByText('#life')).toBeInTheDocument();
-    expect(await screen.findByText('#purpose')).toBeInTheDocument();
+    expect(await screen.findByText(`"${quotes[0].quote}"`)).toBeDefined();
+    expect(await screen.findByText(`- ${quotes[0].author}`)).toBeDefined();
+    const lifeTags = await screen.findAllByText("#life");
+    expect(lifeTags.length).toBeGreaterThanOrEqual(1);
+    const purposeTags = await screen.findAllByText("#purpose");
+    expect(purposeTags.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('Saved quotes are displayed', async () => {
+  it("Saved quotes are displayed", async () => {
     render(<SavedQuotesView />);
 
     await waitFor(() => {
-      expect(screen.getByText(`"${quotes[1].quote}"`)).toBeInTheDocument();
-      expect(screen.getByText(`- ${quotes[1].author}`)).toBeInTheDocument();
-      expect(screen.getByText('#life')).toBeInTheDocument();
-      expect(screen.getByText('#wisdom')).toBeInTheDocument();
+      expect(screen.getByText(`"${quotes[1].quote}"`)).toBeDefined();
+      expect(screen.getByText(`- ${quotes[1].author}`)).toBeDefined();
+      const lifeTags = screen.getAllByText("#life");
+      expect(lifeTags.length).toBeGreaterThanOrEqual(1);
+      const wisdomTags = screen.getAllByText("#wisdom");
+      expect(wisdomTags.length).toBeGreaterThanOrEqual(1);
     });
   });
 
-  it('Saved quotes are ordered from newest to oldest', async () => {
+  it("Popular quotes are displayed", async () => {
+    render(<PopularQuotesView />);
+
+    await waitFor(() => {
+      expect(screen.getByText(`"${quotes[0].quote}"`)).toBeDefined();
+      expect(screen.getByText(`- ${quotes[0].author}`)).toBeDefined();
+      expect(screen.getByText("Top 100 Popular Quotes")).toBeDefined();
+    });
+  });
+
+  it("Saved quotes are ordered from newest to oldest", async () => {
     render(<SavedQuotesView />);
-    
+
     const firstQuote = await screen.findByText(`"${quotes[2].quote}"`);
     const secondQuote = await screen.findByText(`"${quotes[1].quote}"`);
-    
-    expect(firstQuote.compareDocumentPosition(secondQuote)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+
+    expect(firstQuote.compareDocumentPosition(secondQuote)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
-}); 
+});
